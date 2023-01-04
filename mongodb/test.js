@@ -13,6 +13,10 @@ const inventorySchema = new Schema({
 })
 
 let inventory = mongoose.model('Inventory', inventorySchema)
+
+let inventoryData = new inventory({inventory_id: 2, title: "Inventory 0002"})
+inventoryData.save()
+
 let findInventory = async () => {
     let result = await inventory.find({})
     return result
