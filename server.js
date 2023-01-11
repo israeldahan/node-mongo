@@ -16,15 +16,24 @@ app.get('/', (req, res, next) => {
   })
 })
 
-app.get('/inventory', async () => {
-    let result = await Inventory.find({})
+
+app.post('/inventory', async (req,res) => {
+  let body = req.body
+  let inventoryData = new Inventory(body)
+  let result = await inventoryData.save()
+  res.status(201).json(
+    {result}
+)
+
+})
+app.get('/inventory', async (req, res) => {
+    let result = await Inventory.find({  "inventory_id": 1})
     res.status(200).json(
         {result}
     )
     
 })
 
-  
 app.use(async (err, req, res, next) => {
   if (res && res.headersSent) {
     return next(err)
