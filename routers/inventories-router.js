@@ -1,22 +1,16 @@
 const express = require("express");
 const router = new express.Router();
-const { Inventory , User} = require("..mongodb");
+const { Inventory , User} = require("../mongodb");
+const {createInventory,
+  updateInventory
+} = require("../controllers/inventories-controller");
 
-router.post("/inventory", async (req, res) => {
-  let body = req.body;
-  let inventoryData = new Inventory(body);
-  let result = await inventoryData.save();
-  res.status(201).json({ result });
-});
 
-router.put("/inventory/:id", async (req, res) => {
-  const { id } = req.params;
-  const data = req.body;
-  const result = await Inventory.updateOne({ inventory_id: id }, data);
-  res.status(200).json({ result });
-});
+router.post("/", createInventory);
 
-router.delete("/inventory/:id", async (req, res) => {
+router.put("/:id", updateInventory);
+
+router.delete("/:id", async (req, res) => {
   console.log("delete");
   const { id } = req.params;
   // const result = await Inventory.deleteOne({ inventory_id: id });
@@ -24,7 +18,7 @@ router.delete("/inventory/:id", async (req, res) => {
   res.status(200).json({ result });
 });
 
-router.get("/inventory", async (req, res) => {
+router.get("/", async (req, res) => {
   let result = await Inventory.find({});
   res.status(200).json({ result });
 });
